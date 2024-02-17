@@ -1,5 +1,11 @@
 # Getting Started
 
+### TEST with docker-compose.yml
+
+```
+docker-compose -p testbot-pg-app up -d
+```
+
 ### Create Spring app Docker image
 
 ```

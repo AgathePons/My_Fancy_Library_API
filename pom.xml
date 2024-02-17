@@ -64,18 +64,20 @@
 		</plugins>
 	</build>
 
-	<!-- PROFILES -->
 	<profiles>
 		<profile>
 			<id>dev</id>
 			<properties>
-				<activatedProperties>dev</activatedProperties>
+				<spring.datasource.url>
+					jdbc:postgresql://localhost:5432/testbot
+				</spring.datasource.url>
+
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 				<property>
-					<name>spring.profiles.active</name>
-					<value>dev</value>
+					<name>spring.datasource.url</name>
+					<value>jdbc:postgresql://localhost:5432/testbot</value>
 				</property>
 			</activation>
 			<dependencies>
@@ -88,13 +90,13 @@
 		<profile>
 			<id>docker</id>
 			<properties>
-				<activatedProperties>docker</activatedProperties>
+
 			</properties>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 				<property>
-					<name>spring.profiles.active</name>
-					<value>docker</value>
+					<name>spring.datasource.url</name>
+					<value>jdbc:postgresql://host.docker.internal:5432/testbot</value>
 				</property>
 			</activation>
 			<dependencies>
