@@ -34,7 +34,7 @@ services:
       - dbstorage:/var/lib/postgresql/data
 
   myapp:
-    image: myorg/myapp
+    image: agatheatsohga/spring_app_test
     restart: unless-stopped
     ports:
       - 4040:8000

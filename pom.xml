@@ -68,16 +68,13 @@
 		<profile>
 			<id>dev</id>
 			<properties>
-				<spring.datasource.url>
-					jdbc:postgresql://localhost:5432/testbot
-				</spring.datasource.url>
-
+				<activatedProperties>dev</activatedProperties>
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 				<property>
-					<name>spring.datasource.url</name>
-					<value>jdbc:postgresql://localhost:5432/testbot</value>
+					<name>spring.profiles.active</name>
+					<value>dev</value>
 				</property>
 			</activation>
 			<dependencies>
@@ -90,13 +87,13 @@
 		<profile>
 			<id>docker</id>
 			<properties>
-
+				<activatedProperties>docker</activatedProperties>
 			</properties>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 				<property>
-					<name>spring.datasource.url</name>
-					<value>jdbc:postgresql://host.docker.internal:5432/testbot</value>
+					<name>spring.profiles.active</name>
+					<value>docker</value>
 				</property>
 			</activation>
 			<dependencies>
