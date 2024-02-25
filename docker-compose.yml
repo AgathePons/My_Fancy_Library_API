@@ -1,5 +1,9 @@
 version: '1.0'
 
+networks:
+  app_network:
+    driver: bridge
+
 volumes:
   guistorage:
     name: ${GUI_DATA_VOLUME:-pg-gui-data}
@@ -12,6 +16,8 @@ services:
 
   gui:
     image: dpage/pgadmin4:${GUI_TAG:-6.15}
+    networks:
+      - app_network
     restart: unless-stopped
     ports:
       - ${GUI_PORT:-84}:80
@@ -23,9 +29,11 @@ services:
 
   db:
     image: postgres:${DB_TAG:-16.1}
+    networks:
+      - app_network
     restart: unless-stopped
     ports:
-      - ${DB_PORT:-5432}:5432
+      - ${DB_PORT:-5433}:5432
     environment:
       POSTGRES_DB: ${DB_NAME:-testbot}
       POSTGRES_USER: ${DB_USER:-dbuser}
@@ -35,6 +43,8 @@ services:
 
   myapp:
     image: agatheatsohga/spring_app_test
+    networks:
+      - app_network
     restart: unless-stopped
     ports:
       - 4040:8000

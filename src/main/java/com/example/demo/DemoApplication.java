@@ -8,6 +8,7 @@ import org.springframework.http.converter.json.GsonBuilderUtils;
 public class DemoApplication {
 
 	public static void main(String[] args) {
+		System.out.println("Spring Launch");
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
