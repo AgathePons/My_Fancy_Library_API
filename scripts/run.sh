@@ -1,3 +1,3 @@
 #!/bin/sh
-echo 'Tralalilaloulilalilou!!!!!!!!!!';
+echo 'Hello World';
 exec java -jar app.jar;

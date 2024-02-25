@@ -28,7 +28,7 @@ services:
       - guistorage:/var/lib/pgadmin
 
   db:
-    image: postgres:${DB_TAG:-16.1}
+    image: agatheatsohga/sandbox_custom_postgres_image:${DB_TAG:-latest}
     networks:
       - app_network
     restart: unless-stopped
