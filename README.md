@@ -124,7 +124,7 @@ docker-compose -p testbot-pg-app up -d
 
 This project has 2 Maven profiles set :
 
-- **dev** for local developpment
+- **dev** for local development
 
 - **docker** for docker launch
 
