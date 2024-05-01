@@ -8,12 +8,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("author")
 public class AuthorController {
 
     @Autowired
     private AuthorService authorService;
+
+    @GetMapping
+    public List<AuthorDto> getAllAuthor() {
+        return authorService.findAll();
+    }
 
     @GetMapping("{id}")
     public AuthorDto getById(@PathVariable("id") long id) {
