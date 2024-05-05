@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.AuthorDto;
+import com.example.demo.error.NoDataFoundError;
 import com.example.demo.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequestMapping("author")
 public class AuthorController {
 
+    static final String ITEM_TYPE = "Author";
     @Autowired
     private AuthorService authorService;
 
@@ -24,6 +26,6 @@ public class AuthorController {
 
     @GetMapping("{id}")
     public AuthorDto getById(@PathVariable("id") long id) {
-        return authorService.findById(id).orElseThrow();
+        return authorService.findById(id).orElseThrow(() -> NoDataFoundError.withId(ITEM_TYPE,id));
     }
 }
