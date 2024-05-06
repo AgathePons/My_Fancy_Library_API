@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.EditionDto;
 import com.example.demo.modelmapper.ModelMapperUtil;
 import com.example.demo.repository.EditionRepository;
+import com.example.demo.service.EditionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EditionServiceImpl implements com.example.demo.service.EditionService {
+public class EditionServiceImpl implements EditionService {
 
     @Autowired
     private EditionRepository editionRepository;

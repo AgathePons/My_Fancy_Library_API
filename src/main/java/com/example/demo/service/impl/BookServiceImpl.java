@@ -5,6 +5,7 @@ import com.example.demo.dto.BookFullDto;
 import com.example.demo.modelmapper.BookMapper;
 import com.example.demo.modelmapper.ModelMapperUtil;
 import com.example.demo.repository.BookRepository;
+import com.example.demo.service.BookService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BookServiceImpl implements com.example.demo.service.BookService {
+public class BookServiceImpl implements BookService {
 
     @Autowired
     private BookRepository bookRepository;
@@ -26,7 +27,6 @@ public class BookServiceImpl implements com.example.demo.service.BookService {
 
     @Override
     public List<BookDto> findAll() {
-        bookRepository.findAll();
         return ModelMapperUtil.mapListBookMapper(bookRepository.findAll(), bookMapper);
     }
 
