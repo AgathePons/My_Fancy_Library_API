@@ -2,6 +2,8 @@ package com.example.demo.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,4 +17,5 @@ public class BookFullDto {
     private String cover;
     private AuthorDto author;
     private EditionDto edition;
+    private List<CategoryDto> categories;
 }

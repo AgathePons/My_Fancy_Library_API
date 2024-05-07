@@ -20,6 +20,7 @@ public class BookMapper {
         BookDto bookDto = modelMapper.map(book, BookDto.class);
         bookDto.setAuthor(book.getAuthor().getFirstname() + " " + book.getAuthor().getLastname());
         bookDto.setEdition(book.getEdition().getName());
+        bookDto.setCategories(book.getCategories().stream().map(category -> category.getName()).toList());
         return bookDto;
     }
 }
