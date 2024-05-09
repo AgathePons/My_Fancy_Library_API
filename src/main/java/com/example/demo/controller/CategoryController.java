@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.CategoryDto;
+import com.example.demo.dto.CategoryWithBooksDto;
 import com.example.demo.error.NoDataFoundError;
 import com.example.demo.service.CategoryService;
 import org.slf4j.Logger;
@@ -36,5 +37,11 @@ public class CategoryController {
             logger.warn("NoDataFoundError");
             return NoDataFoundError.withId(ITEM_TYPE, id);
         });
+    }
+
+    @GetMapping("/withBooks")
+    public List<CategoryWithBooksDto> getAllCategoryWithBooks() {
+        logger.info("getAllCategoryWithBooks");
+        return categoryService.findAllWithBooks();
     }
 }

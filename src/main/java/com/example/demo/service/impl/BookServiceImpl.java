@@ -2,6 +2,8 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dto.BookDto;
 import com.example.demo.dto.BookFullDto;
+import com.example.demo.dto.dtomapper.BookDtoMapper;
+import com.example.demo.entities.Book;
 import com.example.demo.modelmapper.BookMapper;
 import com.example.demo.modelmapper.ModelMapperUtil;
 import com.example.demo.repository.BookRepository;
@@ -25,9 +27,14 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookMapper bookMapper;
 
+    @Autowired
+    private BookDtoMapper bookDtoMapper;
+
     @Override
     public List<BookDto> findAll() {
-        return ModelMapperUtil.mapListBookMapper(bookRepository.findAll(), bookMapper);
+        Iterable<Book> booksIterable = bookRepository.findAll();
+        List<BookDto> bookDtoList = bookDtoMapper.convert(booksIterable);
+        return bookDtoList;
     }
 
     @Override
