@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.AuthorDto;
+import com.example.demo.entities.Author;
 import com.example.demo.repository.AuthorRepository;
 import com.example.demo.modelmapper.ModelMapperUtil;
 import com.example.demo.service.AuthorService;
@@ -28,5 +29,12 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Optional<AuthorDto> findById(Long id) {
         return authorRepository.findById(id).map(authorEntity -> modelMapper.map(authorEntity, AuthorDto.class));
+    }
+
+    @Override
+    public AuthorDto add(AuthorDto authorDto) {
+        var authorEntity = modelMapper.map(authorDto, Author.class);
+        this.authorRepository.save(authorEntity);
+        return modelMapper.map(authorEntity, AuthorDto.class);
     }
 }
