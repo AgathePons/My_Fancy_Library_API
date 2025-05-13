@@ -1,7 +1,6 @@
 package com.example.demo.dto.dtomapper;
 
 import com.example.demo.dto.BookDto;
-import com.example.demo.dto.BookFullDto;
 import com.example.demo.entities.Book;
 import com.example.demo.modelmapper.BookMapper;
 import com.example.demo.modelmapper.ModelMapperUtil;

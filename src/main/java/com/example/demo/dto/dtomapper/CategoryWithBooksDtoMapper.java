@@ -23,7 +23,6 @@ public class CategoryWithBooksDtoMapper {
 
     public List<CategoryWithBooksDto> convert(Iterable<Category> categoriesIterable) {
         List<Category> categoryList = ModelMapperUtil.mapList(categoriesIterable, Category.class);
-        List<CategoryWithBooksDto> test = null;
 
         return categoryList.stream().map(
                 category -> {

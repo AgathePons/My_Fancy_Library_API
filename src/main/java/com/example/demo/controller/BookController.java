@@ -7,10 +7,8 @@ import com.example.demo.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,25 +29,32 @@ public class BookController {
 
     @GetMapping("{id}")
     public BookDto getById(@PathVariable("id") long id) {
-        logger.info("getById : " + id);
+        logger.info("getById : " + ITEM_TYPE + " ID " + id);
         return bookService.findById(id).orElseThrow(() -> {
-            logger.warn("NoDataFoundError");
+            logger.warn("NoDataFoundError : " + ITEM_TYPE + " ID " + id);
             return NoDataFoundError.withId(ITEM_TYPE, id);
         });
     }
 
     @GetMapping("full")
     public List<BookFullDto> getAllBookFull() {
-        logger.info("getAllBookFull");
+        logger.info("getAllBookFull : " + ITEM_TYPE);
         return bookService.findAllFull();
     }
 
     @GetMapping("full/{id}")
     public BookFullDto getByIdFull(@PathVariable("id") long id) {
-        logger.info("getByIdFull : " + id);
+        logger.info("getByIdFull : " + ITEM_TYPE + " ID " + id);
         return bookService.findByIdFull(id).orElseThrow(() -> {
-            logger.warn("NoDataFoundError");
+            logger.warn("NoDataFoundError : " + ITEM_TYPE + " ID " + id);
             return NoDataFoundError.withId(ITEM_TYPE, id);
         });
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookFullDto add(@RequestBody BookFullDto bookFullDto) {
+        logger.info("add : " + ITEM_TYPE);
+        return bookService.add(bookFullDto);
     }
 }

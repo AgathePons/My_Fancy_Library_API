@@ -11,4 +11,5 @@ public interface BookService {
     List<BookFullDto> findAllFull();
     Optional<BookDto> findById(Long id);
     Optional<BookFullDto> findByIdFull(Long id);
+    BookFullDto add(BookFullDto bookFullDto);
 }
