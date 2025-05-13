@@ -5,6 +5,8 @@ import com.example.demo.dto.BookFullDto;
 import com.example.demo.dto.dtomapper.BookDtoMapper;
 import com.example.demo.entities.Author;
 import com.example.demo.entities.Book;
+import com.example.demo.entities.Category;
+import com.example.demo.entities.Edition;
 import com.example.demo.error.NoDataFoundError;
 import com.example.demo.modelmapper.BookMapper;
 import com.example.demo.modelmapper.ModelMapperUtil;
@@ -18,6 +20,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +50,7 @@ public class BookServiceImpl implements BookService {
 
   static final String ITEM_BOOK = "book";
   static final String ITEM_AUTHOR = "author";
-  static final String ITEM_EDITioN = "edition";
+  static final String ITEM_EDITION = "edition";
   static final String ITEM_CATEGORY = "category";
 
 
@@ -76,40 +79,37 @@ public class BookServiceImpl implements BookService {
   public BookFullDto add(BookFullDto bookFullDto) {
     var bookEntity = modelMapper.map(bookFullDto, Book.class);
 
-    if (bookFullDto.getEdition() != null && bookFullDto.getEdition().getId() != null) {
-      var editionEntity = editionRepository.findById(bookFullDto.getEdition().getId())
-              .orElseThrow(() ->
-                      new EntityNotFoundException("Edition with ID " + bookFullDto.getEdition().getId() + " not found")
-              );
-      bookEntity.setEdition(editionEntity);
+    // Author
+    if (bookFullDto.getAuthor() == null || bookFullDto.getAuthor().getId() == null) {
+      throw new NoDataFoundError("Author ID is missing");
     }
+    Author author = authorRepository.findById(bookFullDto.getAuthor().getId())
+            .orElseThrow(() -> NoDataFoundError.withId(ITEM_AUTHOR, bookFullDto.getAuthor().getId()));
+    bookEntity.setAuthor(author);
 
-    if (bookFullDto.getAuthor() != null && bookFullDto.getAuthor().getId() != null) {
-      var authorEntity = authorRepository.findById(bookFullDto.getAuthor().getId())
-              .orElseThrow(() ->
-                      new EntityNotFoundException("Author with ID " + bookFullDto.getAuthor().getId() + " not found")
-              );
-      bookEntity.setAuthor(authorEntity);
+    // Edition
+    if (bookFullDto.getEdition() == null || bookFullDto.getEdition().getId() == null) {
+      throw new NoDataFoundError("Edition ID is missing");
     }
+    Edition edition = editionRepository.findById(bookFullDto.getEdition().getId())
+            .orElseThrow(() -> NoDataFoundError.withId(ITEM_EDITION, bookFullDto.getEdition().getId()));
+    bookEntity.setEdition(edition);
 
-//    if (bookFullDto.getAuthor() == null || bookFullDto.getAuthor().getId() == null) {
-//      throw new NoDataFoundError("Author ID is missing");
-//    }
-//    Author author = authorRepository.findById(bookFullDto.getAuthor().getId())
-//            .orElseThrow(() -> NoDataFoundError.withId(ITEM_AUTHOR, bookFullDto.getAuthor().getId()));
-//    bookEntity.setAuthor(author);
-
-    if (bookFullDto.getCategories() != null) {
-      var categoriesEntity = bookFullDto.getCategories().stream()
-              .map(categoryDto -> categoryRepository.findById(categoryDto.getId())
-                      .orElseThrow(
-                              () -> new EntityNotFoundException("Category with ID " + categoryDto.getId() + " not found")
-                      ))
+    // Categories
+    if (bookFullDto.getCategories() != null && !bookFullDto.getCategories().isEmpty()) {
+      List<Category> categories = bookFullDto.getCategories().stream()
+              .filter(categoryDto -> categoryDto.getId() != null)
+              .map(categoryDto ->
+                      categoryRepository.findById(categoryDto.getId())
+                              .orElseThrow(() -> NoDataFoundError.withId(ITEM_CATEGORY, categoryDto.getId()))
+              )
               .toList();
-      bookEntity.setCategories(categoriesEntity);
-
+      bookEntity.setCategories(categories);
+    } else {
+      bookEntity.setCategories(Collections.emptyList());
     }
 
+    // Save
     this.bookRepository.save(bookEntity);
     return  modelMapper.map(bookEntity, BookFullDto.class);
   }
