@@ -15,8 +15,9 @@ import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.EditionRepository;
 import com.example.demo.service.BookService;
-import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,10 +49,12 @@ public class BookServiceImpl implements BookService {
   @Autowired
   private BookDtoMapper bookDtoMapper;
 
-  static final String ITEM_BOOK = "book";
+  Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
+
   static final String ITEM_AUTHOR = "author";
   static final String ITEM_EDITION = "edition";
   static final String ITEM_CATEGORY = "category";
+  static final String WITH_ID_NOT_FOUND = "{} with id {} not found";
 
 
   @Override
@@ -81,18 +84,27 @@ public class BookServiceImpl implements BookService {
 
     // Author
     if (bookFullDto.getAuthor() == null || bookFullDto.getAuthor().getId() == null) {
+      logger.warn("Author ID is missing");
       throw new NoDataFoundError("Author ID is missing");
     }
     Author author = authorRepository.findById(bookFullDto.getAuthor().getId())
-            .orElseThrow(() -> NoDataFoundError.withId(ITEM_AUTHOR, bookFullDto.getAuthor().getId()));
+            .orElseThrow(() -> {
+              logger.warn(WITH_ID_NOT_FOUND, ITEM_AUTHOR, bookFullDto.getAuthor().getId());
+              return NoDataFoundError.withId(ITEM_AUTHOR, bookFullDto.getAuthor().getId());
+            });
+
     bookEntity.setAuthor(author);
 
     // Edition
     if (bookFullDto.getEdition() == null || bookFullDto.getEdition().getId() == null) {
+      logger.warn("Edition ID is missing");
       throw new NoDataFoundError("Edition ID is missing");
     }
     Edition edition = editionRepository.findById(bookFullDto.getEdition().getId())
-            .orElseThrow(() -> NoDataFoundError.withId(ITEM_EDITION, bookFullDto.getEdition().getId()));
+            .orElseThrow(() -> {
+              logger.warn(WITH_ID_NOT_FOUND, ITEM_EDITION, bookFullDto.getEdition().getId());
+              return NoDataFoundError.withId(ITEM_EDITION, bookFullDto.getEdition().getId());
+            });
     bookEntity.setEdition(edition);
 
     // Categories
@@ -101,7 +113,10 @@ public class BookServiceImpl implements BookService {
               .filter(categoryDto -> categoryDto.getId() != null)
               .map(categoryDto ->
                       categoryRepository.findById(categoryDto.getId())
-                              .orElseThrow(() -> NoDataFoundError.withId(ITEM_CATEGORY, categoryDto.getId()))
+                              .orElseThrow(() -> {
+                                logger.warn(WITH_ID_NOT_FOUND, ITEM_CATEGORY, categoryDto.getId());
+                                return NoDataFoundError.withId(ITEM_CATEGORY, categoryDto.getId());
+                              })
               )
               .toList();
       bookEntity.setCategories(categories);
