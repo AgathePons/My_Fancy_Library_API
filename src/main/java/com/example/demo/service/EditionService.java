@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface EditionService {
     List<EditionDto> findAll();
     Optional<EditionDto> findById(Long id);
+    EditionDto add(EditionDto editionDto);
 }

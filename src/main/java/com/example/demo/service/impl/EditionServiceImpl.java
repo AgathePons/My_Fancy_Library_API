@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.EditionDto;
+import com.example.demo.entities.Edition;
 import com.example.demo.modelmapper.ModelMapperUtil;
 import com.example.demo.repository.EditionRepository;
 import com.example.demo.service.EditionService;
@@ -28,5 +29,12 @@ public class EditionServiceImpl implements EditionService {
     @Override
     public Optional<EditionDto> findById(Long id) {
         return editionRepository.findById(id).map(editionEntity -> modelMapper.map(editionEntity, EditionDto.class));
+    }
+
+    @Override
+    public EditionDto add(EditionDto editionDto) {
+        var editionEntity = modelMapper.map(editionDto, Edition.class);
+        this.editionRepository.save(editionEntity);
+        return modelMapper.map(editionEntity, EditionDto.class);
     }
 }

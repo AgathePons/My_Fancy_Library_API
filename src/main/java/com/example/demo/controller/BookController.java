@@ -58,4 +58,12 @@ public class BookController {
         logger.info("add: {}", ITEM_TYPE);
         return bookService.add(bookFullDto);
     }
+
+    //TODO update
+
+    //TODO delete
+
+    //TODO add categories
+
+    //TODO remove categories
 }

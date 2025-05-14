@@ -42,4 +42,8 @@ public class AuthorController {
         logger.info("add: {}", ITEM_TYPE);
         return authorService.add(authorDto);
     }
+
+    //TODO update
+
+    //TODO delete
 }

@@ -4,13 +4,12 @@ import com.example.demo.dto.CategoryDto;
 import com.example.demo.dto.CategoryWithBooksDto;
 import com.example.demo.error.NoDataFoundError;
 import com.example.demo.service.CategoryService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,22 +25,33 @@ public class CategoryController {
 
     @GetMapping
     public List<CategoryDto> getAllCategory() {
-        logger.info("getAllCategory");
+        logger.info("getAllCategory: {}", ITEM_TYPE);
         return categoryService.findAll();
     }
 
     @GetMapping("{id}")
     public CategoryDto getById(@PathVariable("id") long id) {
-        logger.info("getById : " + id);
+        logger.info("getById : {} ID {}", ITEM_TYPE, id);
         return categoryService.findById(id).orElseThrow(() -> {
-            logger.warn("NoDataFoundError");
+            logger.warn("NoDataFoundError : {} ID {}", ITEM_TYPE, id);
             return NoDataFoundError.withId(ITEM_TYPE, id);
         });
     }
 
     @GetMapping("/withBooks")
     public List<CategoryWithBooksDto> getAllCategoryWithBooks() {
-        logger.info("getAllCategoryWithBooks");
+        logger.info("getAllCategoryWithBooks: {}", ITEM_TYPE);
         return categoryService.findAllWithBooks();
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public CategoryDto add(@Valid @RequestBody CategoryDto categoryDto) {
+        logger.info("add: {}", ITEM_TYPE);
+        return categoryService.add(categoryDto);
+    }
+
+    //TODO update
+
+    //TODO delete
 }
