@@ -24,30 +24,30 @@ public class BookController {
 
     @GetMapping
     public List<BookDto> getAllBook() {
-        logger.info("getAllBook");
+        logger.info("getAllBook: {}", ITEM_TYPE);
         return bookService.findAll();
     }
 
     @GetMapping("{id}")
     public BookDto getById(@PathVariable("id") long id) {
-        logger.info("getById : " + ITEM_TYPE + " ID " + id);
+        logger.info("getById : {} ID {}", ITEM_TYPE, id);
         return bookService.findById(id).orElseThrow(() -> {
-            logger.warn("NoDataFoundError : " + ITEM_TYPE + " ID " + id);
+            logger.warn("NoDataFoundError : {} ID {}", ITEM_TYPE, id);
             return NoDataFoundError.withId(ITEM_TYPE, id);
         });
     }
 
     @GetMapping("full")
     public List<BookFullDto> getAllBookFull() {
-        logger.info("getAllBookFull : " + ITEM_TYPE);
+        logger.info("getAllBookFull: " + ITEM_TYPE);
         return bookService.findAllFull();
     }
 
     @GetMapping("full/{id}")
     public BookFullDto getByIdFull(@PathVariable("id") long id) {
-        logger.info("getByIdFull : " + ITEM_TYPE + " ID " + id);
+        logger.info("getByIdFull: {} ID {}", ITEM_TYPE, id);
         return bookService.findByIdFull(id).orElseThrow(() -> {
-            logger.warn("NoDataFoundError : " + ITEM_TYPE + " ID " + id);
+            logger.warn("NoDataFoundError: {} ID {}", ITEM_TYPE, id);
             return NoDataFoundError.withId(ITEM_TYPE, id);
         });
     }
@@ -55,7 +55,7 @@ public class BookController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BookFullDto add(@Valid @RequestBody BookFullDto bookFullDto) {
-        logger.info("add : " + ITEM_TYPE);
+        logger.info("add: {}", ITEM_TYPE);
         return bookService.add(bookFullDto);
     }
 }
