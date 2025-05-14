@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 public class BookFullDto {
-    
+
     private Long id;
 
     @NotBlank(message = "title is mandatory")
