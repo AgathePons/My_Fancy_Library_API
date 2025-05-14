@@ -39,8 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryWithBooksDto> findAllWithBooks() {
         Iterable<Category> categoriesIterable = categoryRepository.findAll();
-        List<CategoryWithBooksDto> CategoryWithBooksDtoList = categoryWithBooksDtoMapper.convert(categoriesIterable);
-        return CategoryWithBooksDtoList;
+        return categoryWithBooksDtoMapper.convert(categoriesIterable);
     }
 
     @Override

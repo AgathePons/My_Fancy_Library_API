@@ -2,6 +2,7 @@ package com.example.demo.modelmapper;
 
 import com.example.demo.dto.BookDto;
 import com.example.demo.entities.Book;
+import com.example.demo.entities.Category;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class BookMapper {
         BookDto bookDto = modelMapper.map(book, BookDto.class);
         bookDto.setAuthor(book.getAuthor().getFirstname() + " " + book.getAuthor().getLastname());
         bookDto.setEdition(book.getEdition().getName());
-        bookDto.setCategories(book.getCategories().stream().map(category -> category.getName()).toList());
+        bookDto.setCategories(book.getCategories().stream().map(Category::getName).toList());
         return bookDto;
     }
 }
