@@ -3,6 +3,8 @@ package com.example.demo.error;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter @Setter
 @Builder
 @NoArgsConstructor
@@ -11,4 +13,5 @@ import lombok.*;
 public class ErrorMessage {
     private int status;
     private String message;
+    private LocalDateTime timestamp;
 }

@@ -9,4 +9,5 @@ public class NoDataFoundError extends RuntimeException {
     public static NoDataFoundError withId(String itemType, long id) {
         return new NoDataFoundError(itemType + " with id " + id + " not found");
     }
+
 }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.time.LocalDateTime;
+
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler {
@@ -18,11 +20,17 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         return responseEntity(HttpStatus.NOT_FOUND, exception);
     }
 
+    @ExceptionHandler(BadRequestError.class)
+    public ResponseEntity<ErrorMessage> handleBadRequestError(Exception exception, WebRequest webRequest) {
+        return responseEntity(HttpStatus.BAD_REQUEST, exception);
+    }
+
     private static ResponseEntity<ErrorMessage> responseEntity(HttpStatus httpStatus, Exception exception) {
         return ResponseEntity.status(httpStatus).body(
                 ErrorMessage.builder()
                         .status(httpStatus.value())
                         .message(exception.getMessage())
+                        .timestamp(LocalDateTime.now())
                         .build()
         );
     }
