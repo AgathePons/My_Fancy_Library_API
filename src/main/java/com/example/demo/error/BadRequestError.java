@@ -10,8 +10,8 @@ public class BadRequestError extends RuntimeException {
     return new BadRequestError(itemType + " with id " + id + " not found");
   }
 
-  public static BadRequestError missingField(String itemType) {
-    return new BadRequestError("missing required field: " + itemType);
+  public static BadRequestError missingFieldId(String itemType) {
+    return new BadRequestError("missing id for required field: " + itemType);
   }
 
 }

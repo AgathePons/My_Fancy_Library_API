@@ -4,6 +4,7 @@ import com.example.demo.dto.BookDto;
 import com.example.demo.dto.BookFullDto;
 import com.example.demo.error.NoDataFoundError;
 import com.example.demo.service.BookService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookFullDto add(@RequestBody BookFullDto bookFullDto) {
+    public BookFullDto add(@Valid @RequestBody BookFullDto bookFullDto) {
         logger.info("add : " + ITEM_TYPE);
         return bookService.add(bookFullDto);
     }

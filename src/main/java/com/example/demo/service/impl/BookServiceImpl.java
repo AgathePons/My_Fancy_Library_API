@@ -8,7 +8,6 @@ import com.example.demo.entities.Book;
 import com.example.demo.entities.Category;
 import com.example.demo.entities.Edition;
 import com.example.demo.error.BadRequestError;
-import com.example.demo.error.NoDataFoundError;
 import com.example.demo.modelmapper.BookMapper;
 import com.example.demo.modelmapper.ModelMapperUtil;
 import com.example.demo.repository.AuthorRepository;
@@ -60,7 +59,7 @@ public class BookServiceImpl implements BookService {
   static final String ITEM_EDITION = "edition";
   static final String ITEM_CATEGORY = "category";
   static final String WITH_ID_NOT_FOUND = "{} with id {} not found";
-  static final String IS_MISSING = " is missing";
+  static final String ID_IS_MISSING = " id is missing";
 
 
   @Override
@@ -88,34 +87,10 @@ public class BookServiceImpl implements BookService {
   public BookFullDto add(BookFullDto bookFullDto) {
     var bookEntity = modelMapper.map(bookFullDto, Book.class);
 
-    // Title
-    if (bookFullDto.getTitle() == null) {
-      logger.warn(ITEM_TITLE + IS_MISSING);
-      throw BadRequestError.missingField(ITEM_TITLE);
-    }
-
-    // Abstract text
-    if (bookFullDto.getAbstractText() == null) {
-      logger.warn(ITEM_ABSTRACT_TEXT + IS_MISSING);
-      throw BadRequestError.missingField(ITEM_ABSTRACT_TEXT);
-    }
-
-    // Year of release
-    if (bookFullDto.getYearOfRelease() == null) {
-      logger.warn(ITEM_YEAR_OF_RELEASE + IS_MISSING);
-      throw BadRequestError.missingField(ITEM_YEAR_OF_RELEASE);
-    }
-
-    // Cover
-    if (bookFullDto.getCover() == null) {
-      logger.warn((ITEM_COVER + IS_MISSING));
-      throw BadRequestError.missingField(ITEM_COVER);
-    }
-
     // Author
-    if (bookFullDto.getAuthor() == null || bookFullDto.getAuthor().getId() == null) {
-      logger.warn(ITEM_AUTHOR + IS_MISSING);
-      throw BadRequestError.missingField(ITEM_AUTHOR);
+    if (bookFullDto.getAuthor().getId() == null) {
+      logger.warn(ITEM_AUTHOR + ID_IS_MISSING);
+      throw BadRequestError.missingFieldId(ITEM_AUTHOR);
     }
     Author author = authorRepository.findById(bookFullDto.getAuthor().getId())
             .orElseThrow(() -> {
@@ -125,9 +100,9 @@ public class BookServiceImpl implements BookService {
     bookEntity.setAuthor(author);
 
     // Edition
-    if (bookFullDto.getEdition() == null || bookFullDto.getEdition().getId() == null) {
-      logger.warn(ITEM_EDITION + IS_MISSING);
-      throw BadRequestError.missingField(ITEM_EDITION);
+    if (bookFullDto.getEdition().getId() == null) {
+      logger.warn(ITEM_EDITION + ID_IS_MISSING);
+      throw BadRequestError.missingFieldId(ITEM_EDITION);
     }
     Edition edition = editionRepository.findById(bookFullDto.getEdition().getId())
             .orElseThrow(() -> {
