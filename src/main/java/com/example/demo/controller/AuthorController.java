@@ -45,5 +45,11 @@ public class AuthorController {
 
     //TODO update
 
-    //TODO delete
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable("id") long id) {
+        if (!authorService.delete(id)) {
+            throw NoDataFoundError.withId(ITEM_TYPE, id);
+        }
+    }
 }

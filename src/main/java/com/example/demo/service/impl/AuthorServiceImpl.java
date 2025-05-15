@@ -37,4 +37,15 @@ public class AuthorServiceImpl implements AuthorService {
         this.authorRepository.save(authorEntity);
         return modelMapper.map(authorEntity, AuthorDto.class);
     }
+
+    @Override
+    public boolean delete(long id) {
+        //TODO
+        return authorRepository.findById(id)
+                .map(authorEntity -> {
+                    authorRepository.delete(authorEntity);
+                    return true;
+                })
+                .orElse(false);
+    }
 }
