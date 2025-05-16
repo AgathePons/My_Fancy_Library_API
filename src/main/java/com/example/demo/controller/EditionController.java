@@ -45,5 +45,12 @@ public class EditionController {
 
     //TODO update
 
-    //TODO delete
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable("id") long id) {
+        logger.info("deleteById: {}", ITEM_TYPE);
+        if (!editionService.delete(id)) {
+            throw NoDataFoundError.withId(ITEM_TYPE, id);
+        }
+    }
 }
