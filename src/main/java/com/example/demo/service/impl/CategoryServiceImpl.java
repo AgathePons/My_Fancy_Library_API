@@ -8,6 +8,8 @@ import com.example.demo.modelmapper.ModelMapperUtil;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.service.CategoryService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryWithBooksDtoMapper categoryWithBooksDtoMapper;
+
+    Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
+
+    static final String ITEM_TYPE = "category";
+    static final String WITH_ID_NOT_FOUND = "{} with id {} not found";
 
     @Override
     public List<CategoryDto> findAll() {
@@ -47,5 +54,20 @@ public class CategoryServiceImpl implements CategoryService {
         var categoryEntity = modelMapper.map(categoryDto, Category.class);
         this.categoryRepository.save(categoryEntity);
         return modelMapper.map(categoryEntity, CategoryDto.class);
+    }
+
+    @Override
+    public boolean delete(long id) {
+        if (!categoryRepository.existsById(id)) {
+            logger.warn(WITH_ID_NOT_FOUND, ITEM_TYPE);
+            return false;
+        }
+
+        return categoryRepository.findById(id)
+                .map(categoryEntity -> {
+                    categoryRepository.delete(categoryEntity);
+                    return true;
+                })
+                .orElse(false);
     }
 }

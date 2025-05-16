@@ -11,4 +11,5 @@ public interface CategoryService {
     Optional<CategoryDto> findById(Long id);
     List<CategoryWithBooksDto> findAllWithBooks();
     CategoryDto add(CategoryDto categoryDto);
+    boolean delete(long id);
 }

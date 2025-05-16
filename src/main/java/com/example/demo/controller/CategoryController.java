@@ -53,5 +53,12 @@ public class CategoryController {
 
     //TODO update
 
-    //TODO delete
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable("id") long id) {
+        logger.info("delteById: {}", ITEM_TYPE);
+        if (!categoryService.delete(id)) {
+            throw NoDataFoundError.withId(ITEM_TYPE, id);
+        }
+    }
 }
