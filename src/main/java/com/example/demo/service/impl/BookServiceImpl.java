@@ -51,11 +51,7 @@ public class BookServiceImpl implements BookService {
 
   Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
 
-  static final String ITEM_TITLE = "title";
   static final String ITEM_AUTHOR = "author";
-  static final String ITEM_ABSTRACT_TEXT = "abstract text";
-  static final String ITEM_YEAR_OF_RELEASE = "year of release";
-  static final String ITEM_COVER = "cover";
   static final String ITEM_EDITION = "edition";
   static final String ITEM_CATEGORY = "category";
   static final String WITH_ID_NOT_FOUND = "{} with id {} not found";

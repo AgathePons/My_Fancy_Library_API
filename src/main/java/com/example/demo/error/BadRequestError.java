@@ -14,4 +14,14 @@ public class BadRequestError extends RuntimeException {
     return new BadRequestError("missing id for required field: " + itemType);
   }
 
+  public static BadRequestError deletionNotAllowedLinkedItem(String itemType,
+                                                             String linkedItemType,
+                                                             int numberOfLinkedItem) {
+    return new BadRequestError(
+            itemType
+            + " deletion not allowed because it is linked to "
+            + numberOfLinkedItem + " " + linkedItemType
+    );
+  }
+
 }
