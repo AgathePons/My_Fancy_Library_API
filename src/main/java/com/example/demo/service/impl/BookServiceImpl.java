@@ -51,6 +51,7 @@ public class BookServiceImpl implements BookService {
 
   Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
 
+  static final String ITEM_TYPE = "book";
   static final String ITEM_AUTHOR = "author";
   static final String ITEM_EDITION = "edition";
   static final String ITEM_CATEGORY = "category";
@@ -127,5 +128,20 @@ public class BookServiceImpl implements BookService {
     // Save
     this.bookRepository.save(bookEntity);
     return  modelMapper.map(bookEntity, BookFullDto.class);
+  }
+
+  @Override
+  public boolean delete(long id) {
+    if (!bookRepository.existsById(id)) {
+      logger.warn(WITH_ID_NOT_FOUND, ITEM_TYPE);
+      return false;
+    }
+
+    return bookRepository.findById(id)
+            .map(bookEntity -> {
+              bookRepository.delete(bookEntity);
+              return true;
+            })
+            .orElse(false);
   }
 }
