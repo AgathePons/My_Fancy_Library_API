@@ -48,6 +48,7 @@ public class AuthorController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable("id") long id) {
+        logger.info("deleteById: {}", ITEM_TYPE);
         if (!authorService.delete(id)) {
             throw NoDataFoundError.withId(ITEM_TYPE, id);
         }
