@@ -4,6 +4,7 @@ import com.example.demo.dto.CategoryDto;
 import com.example.demo.dto.CategoryWithBooksDto;
 import com.example.demo.dto.dtomapper.CategoryWithBooksDtoMapper;
 import com.example.demo.entities.Category;
+import com.example.demo.error.BadRequestError;
 import com.example.demo.modelmapper.ModelMapperUtil;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.service.CategoryService;
@@ -54,6 +55,18 @@ public class CategoryServiceImpl implements CategoryService {
         var categoryEntity = modelMapper.map(categoryDto, Category.class);
         this.categoryRepository.save(categoryEntity);
         return modelMapper.map(categoryEntity, CategoryDto.class);
+    }
+
+    @Override
+    public Optional<CategoryDto> update(CategoryDto categoryDto) {
+        if (categoryDto.getId() == null) {
+            throw BadRequestError.missingId(ITEM_TYPE);
+        }
+        return categoryRepository.findById(categoryDto.getId()).map(categoryEntity -> {
+            modelMapper.map(categoryDto, categoryEntity);
+            categoryRepository.save(categoryEntity);
+            return modelMapper.map(categoryEntity, CategoryDto.class);
+        });
     }
 
     @Override

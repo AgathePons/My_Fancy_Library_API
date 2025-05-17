@@ -44,6 +44,7 @@ public class EditionController {
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public EditionDto update(@Valid @RequestBody EditionDto editionDto) {
         logger.info("update: {}", ITEM_TYPE);
         return editionService.update(editionDto)

@@ -51,12 +51,18 @@ public class CategoryController {
         return categoryService.add(categoryDto);
     }
 
-    //TODO update
+    @PutMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public CategoryDto update(@Valid @RequestBody CategoryDto categoryDto) {
+        logger.info("update: {}", ITEM_TYPE);
+        return categoryService.update(categoryDto)
+                .orElseThrow(() -> NoDataFoundError.withId(ITEM_TYPE, categoryDto.getId()));
+    }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable("id") long id) {
-        logger.info("delteById: {}", ITEM_TYPE);
+        logger.info("deleteById: {}", ITEM_TYPE);
         if (!categoryService.delete(id)) {
             throw NoDataFoundError.withId(ITEM_TYPE, id);
         }

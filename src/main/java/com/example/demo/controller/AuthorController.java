@@ -44,6 +44,7 @@ public class AuthorController {
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public AuthorDto update(@Valid @RequestBody AuthorDto authorDto) {
         logger.info("update: {}", ITEM_TYPE);
         return authorService.update(authorDto)
