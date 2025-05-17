@@ -43,7 +43,12 @@ public class AuthorController {
         return authorService.add(authorDto);
     }
 
-    //TODO update
+    @PutMapping
+    public AuthorDto update(@Valid @RequestBody AuthorDto authorDto) {
+        logger.info("update: {}", ITEM_TYPE);
+        return authorService.update(authorDto)
+                .orElseThrow(() -> NoDataFoundError.withId(ITEM_TYPE, authorDto.getId()));
+    }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

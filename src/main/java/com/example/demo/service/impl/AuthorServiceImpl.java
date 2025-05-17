@@ -51,6 +51,18 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    public Optional<AuthorDto> update(AuthorDto authorDto) {
+        if (authorDto.getId() == null) {
+            throw BadRequestError.missingId(ITEM_TYPE);
+        }
+        return this.authorRepository.findById(authorDto.getId()).map(authorEntity -> {
+            modelMapper.map(authorDto, authorEntity);
+            authorRepository.save(authorEntity);
+            return modelMapper.map(authorEntity, AuthorDto.class);
+        });
+    }
+
+    @Override
     public boolean delete(long id) {
         if (!authorRepository.existsById(id)) {
             logger.warn(WITH_ID_NOT_FOUND, ITEM_TYPE);
