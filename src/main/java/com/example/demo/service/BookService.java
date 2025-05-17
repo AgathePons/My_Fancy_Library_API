@@ -12,5 +12,6 @@ public interface BookService {
     Optional<BookDto> findById(Long id);
     Optional<BookFullDto> findByIdFull(Long id);
     BookFullDto add(BookFullDto bookFullDto);
+    Optional<BookFullDto> update(BookFullDto bookFullDto);
     boolean delete(long id);
 }

@@ -59,7 +59,13 @@ public class BookController {
         return bookService.add(bookFullDto);
     }
 
-    //TODO update
+    @PutMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public BookFullDto update(@Valid @RequestBody BookFullDto bookFullDto) {
+        logger.info("update: {}", ITEM_TYPE);
+        return bookService.update(bookFullDto)
+                .orElseThrow(() -> NoDataFoundError.withId(ITEM_TYPE, bookFullDto.getId()));
+    }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
