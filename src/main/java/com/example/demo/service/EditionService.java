@@ -9,5 +9,6 @@ public interface EditionService {
     List<EditionDto> findAll();
     Optional<EditionDto> findById(Long id);
     EditionDto add(EditionDto editionDto);
+    Optional<EditionDto> update(EditionDto editionDto);
     boolean delete(long id);
 }

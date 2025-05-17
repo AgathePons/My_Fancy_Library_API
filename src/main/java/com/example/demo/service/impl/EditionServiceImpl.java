@@ -52,6 +52,18 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
+    public Optional<EditionDto> update(EditionDto editionDto) {
+        if (editionDto.getId() == null) {
+            throw BadRequestError.missingId(ITEM_TYPE);
+        }
+        return this.editionRepository.findById(editionDto.getId()).map(editionEntity -> {
+            modelMapper.map(editionDto, editionEntity);
+            editionRepository.save(editionEntity);
+            return modelMapper.map(editionEntity, EditionDto.class);
+        });
+    }
+
+    @Override
     public boolean delete(long id) {
         if (!editionRepository.existsById(id)) {
             logger.warn(WITH_ID_NOT_FOUND, ITEM_TYPE);

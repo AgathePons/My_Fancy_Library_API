@@ -43,7 +43,12 @@ public class EditionController {
         return editionService.add(editionDto);
     }
 
-    //TODO update
+    @PutMapping
+    public EditionDto update(@Valid @RequestBody EditionDto editionDto) {
+        logger.info("update: {}", ITEM_TYPE);
+        return editionService.update(editionDto)
+                .orElseThrow(() -> NoDataFoundError.withId(ITEM_TYPE, editionDto.getId()));
+    }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
