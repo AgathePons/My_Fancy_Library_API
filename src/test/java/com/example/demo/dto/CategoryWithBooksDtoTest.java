@@ -15,7 +15,7 @@ public class CategoryWithBooksDtoTest {
     assertAll(
             () -> assertNull(categoryWithBooksDto.getId(), "id"),
             () -> assertNull(categoryWithBooksDto.getName(), "name"),
-            () -> assertNull(categoryWithBooksDto.getBooks(), "books")
+            () -> assertEquals(0, categoryWithBooksDto.getBooks().size(), "books list size")
     );
   }
 
