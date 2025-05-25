@@ -29,10 +29,10 @@ public class CategoryWithBooksDtoTest {
     List<BookDto> bookDtoList = List.of(bookDtoOne, bookDtoTwo);
     var categoryWithBooksDto = new CategoryWithBooksDto(id, name, bookDtoList);
     assertAll(
-            () -> assertEquals(id, categoryWithBooksDto.getId()),
-            () -> assertEquals(name, categoryWithBooksDto.getName()),
-            () -> assertEquals(bookDtoList, categoryWithBooksDto.getBooks()),
-            () -> assertEquals(2, categoryWithBooksDto.getBooks().size())
+            () -> assertEquals(id, categoryWithBooksDto.getId(), "id"),
+            () -> assertEquals(name, categoryWithBooksDto.getName(), "name"),
+            () -> assertEquals(bookDtoList, categoryWithBooksDto.getBooks(), "books"),
+            () -> assertEquals(2, categoryWithBooksDto.getBooks().size(), "books list size")
     );
   }
 
@@ -46,9 +46,9 @@ public class CategoryWithBooksDtoTest {
     var categoryWithBooksDto = CategoryWithBooksDto.builder().name(name).books(bookDtoList).build();
     assertAll(
             () -> assertNull(categoryWithBooksDto.getId(), "id"),
-            () -> assertEquals(name, categoryWithBooksDto.getName()),
-            () -> assertEquals(bookDtoList, categoryWithBooksDto.getBooks()),
-            () -> assertEquals(2, categoryWithBooksDto.getBooks().size())
+            () -> assertEquals(name, categoryWithBooksDto.getName(), "name"),
+            () -> assertEquals(bookDtoList, categoryWithBooksDto.getBooks(), "books"),
+            () -> assertEquals(2, categoryWithBooksDto.getBooks().size(), "books list size")
     );
   }
 }
