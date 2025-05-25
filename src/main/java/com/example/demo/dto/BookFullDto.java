@@ -3,6 +3,7 @@ package com.example.demo.dto;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -33,5 +34,6 @@ public class BookFullDto {
     @NotNull(message = "edition is mandatory")
     private EditionDto edition;
 
-    private List<CategoryDto> categories;
+    @Builder.Default
+    private List<CategoryDto> categories = new ArrayList<>();
 }

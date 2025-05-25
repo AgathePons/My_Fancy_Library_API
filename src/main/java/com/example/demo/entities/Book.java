@@ -39,6 +39,7 @@ public class Book {
     @JoinColumn(name = "edition_id")
     private Edition edition;
 
+    @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "book_has_category",

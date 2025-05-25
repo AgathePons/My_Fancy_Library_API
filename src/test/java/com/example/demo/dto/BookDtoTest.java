@@ -16,11 +16,11 @@ public class BookDtoTest {
             () -> assertNull(bookDto.getId(), "id"),
             () -> assertNull(bookDto.getTitle(), "title"),
             () -> assertNull(bookDto.getAbstractText(), "abstract text"),
-            () -> assertEquals(0, bookDto.getYearOfRelease(), "year of release"),
+            () -> assertNull(bookDto.getYearOfRelease(), "year of release"),
             () -> assertNull(bookDto.getCover(), "cover"),
             () -> assertNull(bookDto.getAuthor(), "author"),
             () -> assertNull(bookDto.getEdition(), "edition"),
-            () -> assertNull(bookDto.getCategories(), "categories")
+            () -> assertEquals(0, bookDto.getCategories().size(), "categories list size")
 
     );
   }
