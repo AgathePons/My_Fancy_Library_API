@@ -2,6 +2,7 @@ package com.example.demo.dto;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -12,5 +13,6 @@ import java.util.List;
 public class CategoryWithBooksDto {
     private Long id;
     private String name;
-    private List<BookDto> books;
+    @Builder.Default
+    private List<BookDto> books = new ArrayList<>();
 }

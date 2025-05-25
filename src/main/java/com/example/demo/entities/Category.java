@@ -21,6 +21,7 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "book_has_category",
