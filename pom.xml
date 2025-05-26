@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.2</version>
+		<version>3.5.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
@@ -15,70 +15,91 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
+		<spring.boot.version>3.5.0</spring.boot.version>
+		<mockito.version>5.18.0</mockito.version>
+		<spring.boot.starter.data.jpa.version>${spring.boot.version}</spring.boot.starter.data.jpa.version>
+		<spring.boot.starter.jdbc.version>${spring.boot.version}</spring.boot.starter.jdbc.version>
+		<spring.boot.starter.web.version>${spring.boot.version}</spring.boot.starter.web.version>
+		<spring.boot.starter.test.version>${spring.boot.version}</spring.boot.starter.test.version>
+		<jakarta.validation.api.version>3.1.1</jakarta.validation.api.version>
+		<hibernate.validator.version>9.0.0.Final</hibernate.validator.version>
+		<postgresql.version>42.7.5</postgresql.version>
+		<lombok.version>1.18.38</lombok.version>
+		<modelmapper.version>3.2.3</modelmapper.version>
+		<mockito.core.version>${mockito.version}</mockito.core.version>
+		<mockito.junit.jupiter.version>${mockito.version}</mockito.junit.jupiter.version>
+		<junit.jupiter.version>5.13.0-M3</junit.jupiter.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>${spring.boot.starter.data.jpa.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
+			<version>${spring.boot.starter.jdbc.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${spring.boot.starter.web.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
+			<version>${jakarta.validation.api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.validator.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
-			<version>3.2.0</version>
+			<version>${modelmapper.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${spring.boot.starter.test.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>5.17.0</version>
+			<version>${mockito.core.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>5.17.0</version>
+			<version>${mockito.junit.jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>5.12.2</version>
+			<version>${junit.jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -95,8 +116,28 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.0.0-M5</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>4.0.0-M16</version>
+			</plugin>
 		</plugins>
 	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.0.0-M5</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<profiles>
 		<profile>
