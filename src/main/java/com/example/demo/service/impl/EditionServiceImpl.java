@@ -34,16 +34,8 @@ public class EditionServiceImpl implements EditionService {
 
     static final String WITH_ID_NOT_FOUND = "{} with id {} not found";
 
-    // TEST
-    public EditionServiceImpl(EditionRepository editionRepository) {
-        this.editionRepository = editionRepository;
-    }
-
     @Override
     public List<EditionDto> findAll() {
-        System.out.println("SERVICE findAll()");
-        String something = ModelMapperUtil.getSomething();
-        System.out.println(something);
         return ModelMapperUtil.mapList(editionRepository.findAll(), EditionDto.class);
     }
 
