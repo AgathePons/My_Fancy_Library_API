@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.EditionDto;
 import com.example.demo.entities.Edition;
+import com.example.demo.modelmapper.ModelMapperUtil;
 import com.example.demo.repository.EditionRepository;
 import com.example.demo.service.impl.EditionServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
@@ -79,5 +81,75 @@ public class EditionServiceImplTest {
             () -> verify(editionRepository).findById(idNotFound),
             () -> verifyNoInteractions(modelMapper)
     );
+  }
+
+  @Test
+  @DisplayName("findAll should return a list of EditionDto")
+  void findAll_shouldReturnEditionDtoList() {
+    // Given
+    when(editionRepository.findAll()).thenReturn(editionList);
+    try(MockedStatic<ModelMapperUtil> mockedStatic = mockStatic(ModelMapperUtil.class)) {
+      mockedStatic.when(() -> ModelMapperUtil.mapList(editionList, EditionDto.class)).thenReturn(editionDtoList);
+    }
+
+    // When
+    List<EditionDto> result = editionService.findAll();
+    System.out.println("result : " + result.toString());
+    System.out.println(result.size() + " elements in the result list");
+    for (EditionDto editionDto : result) {
+      System.out.println("\t" + editionDto.getName() + " id = " + editionDto.getId());
+    }
+    System.out.println("expected : " + editionDtoList.toString());
+    System.out.println(editionDtoList.size() + " elements in the editionDtoList");
+    for (EditionDto editionDto : editionDtoList) {
+      System.out.println("\t" + editionDto.getName() + " id = " + editionDto.getId());
+    }
+
+    System.out.println("editionDtoList[0] == result[0] ? " + (editionDtoList.get(0) == result.get(0)));
+    System.out.println("editionDtoList[1] == result[1] ? " + (editionDtoList.get(1) == result.get(1)));
+
+    // Then
+    assertAll(
+            "verify findAll flow and result",
+            () -> assertNotNull(result, "result is not null"),
+            () -> assertEquals(2, result.size(), "list should have 2 elements"),
+            () -> assertIterableEquals(editionDtoList, result, "expected list and result list are equal Iterable"),
+            () -> assertEquals(editionDtoList, result, "expected list should match result"),
+            () -> assertSame(editionDtoList, result, "expected list and result should be the same object")
+    );
+  }
+
+  @Test
+  @DisplayName("test if Iterable are equals")
+  void testIterableEquals() {
+    List<EditionDto> resultEditionDtoList = editionDtoList;
+    assertIterableEquals(editionDtoList, resultEditionDtoList, "editionDtoList and resultEditionDtoList are same Iterable when resultEditionDtoList = editionDtoList");
+
+    when(editionRepository.findAll()).thenReturn(editionList);
+    Iterable<Edition> resultEditionList = editionRepository.findAll();
+    assertIterableEquals(editionList, resultEditionList, "editionList and resultEditionList are same Iterable when editionRepository.findAll returns editionList");
+
+
+    try(MockedStatic<ModelMapperUtil> mockedStatic = mockStatic(ModelMapperUtil.class)) {
+//      mockedStatic.when(() -> ModelMapperUtil.mapList(editionList, EditionDto.class)).thenAnswer(invocation -> {
+//        System.out.println(">>> MOCK called with: " + invocation.getArguments()[0]);
+//        return resultEditionDtoList;
+//      });
+      mockedStatic.when(ModelMapperUtil::getSomething).thenReturn("GnihihihahHAHohoHö");
+
+      mockedStatic.when(() -> ModelMapperUtil.mapList(resultEditionList, EditionDto.class))
+              .thenReturn(resultEditionDtoList);
+
+      List<EditionDto> result;
+      EditionService editionServiceInTry = new EditionServiceImpl(editionRepository);
+      result = editionServiceInTry.findAll();
+      System.out.println("result size : " + result.size());
+      System.out.println("result to string : " + result.toString());
+
+      assertIterableEquals(resultEditionDtoList, result, "resultEditionDtoList and result are same Iterable when ModelMapperUtil.mapList returns resultEditionDtoList");
+    } catch (Exception e) {
+      System.out.println(">>>>> in catch");
+    }
+
   }
 }

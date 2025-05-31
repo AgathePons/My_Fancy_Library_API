@@ -26,6 +26,7 @@ public class ModelMapperUtil {
      * @param <T> type to convert in
      */
     public static <S, T> List<T> mapList(List<S> source, Class<T> targetClass) {
+        System.out.println("ModelMapperUtil mapList List<S> into Class<T>");
         return source.stream().map(element -> modelMapper.map(element, targetClass)).toList();
     }
 
@@ -38,6 +39,7 @@ public class ModelMapperUtil {
      * @param <T> type to convert in
      */
     public static <S, T> List<T> mapList(Iterable<S> source, Class<T> targetClass) {
+        System.out.println("ModelMapperUtil mapList Iterable<S> into Class<T>");
         return ModelMapperUtil.toStream(source).map(element -> modelMapper.map(element, targetClass)).toList();
     }
 
@@ -63,5 +65,10 @@ public class ModelMapperUtil {
             Book bookEntity = book;
             return mapper.convertToDto(bookEntity);
         }).toList();
+    }
+
+    // TEST
+    public static String getSomething() {
+        return "YohohohoaahaAAAhahaHAHA";
     }
 }
