@@ -14,6 +14,7 @@ public class BookFullDtoTest {
   void testDefaultConstructor() {
     var bookFullDto = new BookFullDto();
     assertAll(
+            "verify all dto attributes",
             () -> assertNull(bookFullDto.getId(), "id"),
             () -> assertNull(bookFullDto.getTitle(), "title"),
             () -> assertNull(bookFullDto.getAbstractText(), "abstract text"),
@@ -40,6 +41,7 @@ public class BookFullDtoTest {
     List<CategoryDto> categoryDtoList = List.of(categoryDtoOne, categoryDtoTwo);
     var bookFullDto = new BookFullDto(id, title, abstractText, yearOfRelease, cover, authorDto, editionDto, categoryDtoList);
     assertAll(
+            "verify all dto attributes",
             () -> assertEquals(id, bookFullDto.getId(), "id"),
             () -> assertEquals(title, bookFullDto.getTitle(), "title"),
             () -> assertEquals(abstractText, bookFullDto.getAbstractText(), "abstract text"),
@@ -74,6 +76,7 @@ public class BookFullDtoTest {
             .categories(categoryDtoList)
             .build();
     assertAll(
+            "verify all dto attributes",
             () -> assertNull(bookFullDto.getId(), "id"),
             () -> assertEquals(title, bookFullDto.getTitle(), "title"),
             () -> assertEquals(abstractText, bookFullDto.getAbstractText(), "abstract text"),

@@ -12,6 +12,7 @@ public class EditionDtoTest {
   void testDefaultConstructor() {
     var editionDto = new EditionDto();
     assertAll(
+            "verify all dto attributes",
             () -> assertNull(editionDto.getId(), "id"),
             () -> assertNull(editionDto.getName(), "name")
     );
@@ -24,6 +25,7 @@ public class EditionDtoTest {
     String name = "edition name";
     var editionDto = new EditionDto(id, name);
     assertAll(
+            "verify all dto attributes",
             () -> assertEquals(id, editionDto.getId(), "id"),
             () -> assertEquals(name, editionDto.getName(), "name")
     );
@@ -35,6 +37,7 @@ public class EditionDtoTest {
     String name = "edition name";
     var editionDto = EditionDto.builder().name(name).build();
     assertAll(
+            "verify all dto attributes",
             () -> assertNull(editionDto.getId(), "id"),
             () -> assertEquals(name, editionDto.getName(), "name")
     );

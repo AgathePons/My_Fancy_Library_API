@@ -11,6 +11,7 @@ public class AuthorDtoTest {
   void testDefaultConstructor() {
     var authorDto = new AuthorDto();
     assertAll(
+            "verify all dto attributes",
             () -> assertNull(authorDto.getId(), "id"),
             () -> assertNull(authorDto.getFirstname(), "firstname"),
             () -> assertNull(authorDto.getLastname(), "lastname")
@@ -25,6 +26,7 @@ public class AuthorDtoTest {
     String lastname = "author lastname";
     var authorDto = new AuthorDto(id, firstname, lastname);
     assertAll(
+            "verify all dto attributes",
             () -> assertEquals(id, authorDto.getId()),
             () -> assertEquals(firstname, authorDto.getFirstname()),
             () -> assertEquals(lastname, authorDto.getLastname())
@@ -38,6 +40,7 @@ public class AuthorDtoTest {
     String lastname = "author lastname";
     var authorDto = AuthorDto.builder().firstname(firstname).lastname(lastname).build();
     assertAll(
+            "verify all dto attributes",
             () -> assertNull(authorDto.getId(), "id"),
             () -> assertEquals(firstname, authorDto.getFirstname()),
             () -> assertEquals(lastname, authorDto.getLastname())

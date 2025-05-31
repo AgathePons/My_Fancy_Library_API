@@ -13,6 +13,7 @@ public class CategoryDtoTest {
   void testDefaultConstructor() {
     var CategoryDto = new CategoryDto();
     assertAll(
+            "verify all dto attributes",
             () -> assertNull(CategoryDto.getId(), "id"),
             () -> assertNull(CategoryDto.getName(), "name")
     );
@@ -25,6 +26,7 @@ public class CategoryDtoTest {
     String name = "category name";
     var categoryDto = new CategoryDto(id, name);
     assertAll(
+            "verify all dto attributes",
             () -> assertEquals(id, categoryDto.getId(), "id"),
             () -> assertEquals(name, categoryDto.getName(), "name")
     );
@@ -36,6 +38,7 @@ public class CategoryDtoTest {
     String name = "category name";
     var categoryDto = CategoryDto.builder().name(name).build();
     assertAll(
+            "verify all dto attributes",
             () -> assertNull(categoryDto.getId(), "id"),
             () -> assertEquals(name, categoryDto.getName(), "name")
     );
