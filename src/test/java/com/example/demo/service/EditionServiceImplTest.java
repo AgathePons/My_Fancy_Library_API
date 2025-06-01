@@ -27,12 +27,16 @@ public class EditionServiceImplTest {
   private final Long idOne = 1L;
   private final Long idTwo = 2L;
   private final Long idNotFound = 999L;
+  private final Long idToAdd = 10L;
   private final String nameOne = "edition 1";
   private final String nameTwo = "edition 2";
+  private final String nameToAdd = "edition to add";
   private final Edition editionOne = Edition.builder().id(idOne).name(nameOne).build();
   private final Edition editionTwo = Edition.builder().id(idTwo).name(nameTwo).build();
+  private final Edition editionToAdd = Edition.builder().name(nameToAdd).build();
   private final EditionDto editionDtoOne = EditionDto.builder().id(idOne).name(nameOne).build();
   private final EditionDto editionDtoTwo = EditionDto.builder().id(idTwo).name(nameTwo).build();
+  private final EditionDto editionDtoToAdd = EditionDto.builder().name(nameToAdd).build();
   private final List<Edition> editionList = Arrays.asList(this.editionOne, this.editionTwo);
   private final List<EditionDto> editionDtoList = Arrays.asList(this.editionDtoOne, this.editionDtoTwo);
 
@@ -59,7 +63,7 @@ public class EditionServiceImplTest {
     assertAll(
       "verify findById flow and result",
             () -> assertTrue(result.isPresent(), "Optional result is present"),
-            () -> assertSame(editionDtoOne, result.get(), "expected Object and result Object are equal"),
+            () -> assertSame(editionDtoOne, result.get(), "expected Object and result Object are the same"),
             () -> verify(editionRepository).findById(idOne),
             () -> verify(modelMapper).map(editionOne, EditionDto.class)
     );
@@ -111,5 +115,29 @@ public class EditionServiceImplTest {
               () -> mockedStatic.verify(() -> ModelMapperUtil.mapList(resultEditionList, EditionDto.class))
       );
     }
+  }
+
+  @Test
+  @DisplayName("add should return the new EditionDto with ID")
+  void add_shouldReturnNewEditionDtoWithId() {
+    // Given
+    when(modelMapper.map(editionDtoToAdd, Edition.class)).thenReturn(editionToAdd);
+    editionToAdd.setId(idToAdd);
+    when(editionRepository.save(editionToAdd)).thenReturn(editionToAdd);
+    editionDtoToAdd.setId(idToAdd);
+    when(modelMapper.map(editionToAdd, EditionDto.class)).thenReturn(editionDtoToAdd);
+
+    // When
+    EditionDto result = editionService.add(editionDtoToAdd);
+
+    // Then
+    assertAll(
+            () -> assertSame(editionDtoToAdd, result, "expected Object and result Object are the same"),
+            () -> assertNotNull(result.getId(), "result EditionDto has an ID"),
+            () -> assertEquals(idToAdd, result.getId(), "expected EditionDto ID and result EditionDto ID are equal"),
+            () -> verify(editionRepository).save(editionToAdd),
+            () -> verify(modelMapper).map(editionDtoToAdd, Edition.class),
+            () -> verify(modelMapper).map(editionToAdd, EditionDto.class)
+    );
   }
 }
