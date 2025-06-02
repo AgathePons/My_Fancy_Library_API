@@ -5,6 +5,7 @@ import com.example.demo.entities.Edition;
 import com.example.demo.modelmapper.ModelMapperUtil;
 import com.example.demo.repository.EditionRepository;
 import com.example.demo.service.impl.EditionServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,14 +32,14 @@ public class EditionServiceImplTest {
   private final String nameOne = "edition 1";
   private final String nameTwo = "edition 2";
   private final String nameToAdd = "edition to add";
-  private final Edition editionOne = Edition.builder().id(idOne).name(nameOne).build();
-  private final Edition editionTwo = Edition.builder().id(idTwo).name(nameTwo).build();
-  private final Edition editionToAdd = Edition.builder().name(nameToAdd).build();
-  private final EditionDto editionDtoOne = EditionDto.builder().id(idOne).name(nameOne).build();
-  private final EditionDto editionDtoTwo = EditionDto.builder().id(idTwo).name(nameTwo).build();
-  private final EditionDto editionDtoToAdd = EditionDto.builder().name(nameToAdd).build();
-  private final List<Edition> editionList = Arrays.asList(this.editionOne, this.editionTwo);
-  private final List<EditionDto> editionDtoList = Arrays.asList(this.editionDtoOne, this.editionDtoTwo);
+  private Edition editionOne;
+  private Edition editionTwo;
+  private Edition editionToAdd;
+  private EditionDto editionDtoOne;
+  private EditionDto editionDtoTwo;
+  private EditionDto editionDtoToAdd;
+  private List<Edition> editionList;
+  private List<EditionDto> editionDtoList;
 
   @Mock
   private EditionRepository editionRepository;
@@ -48,6 +49,18 @@ public class EditionServiceImplTest {
 
   @InjectMocks
   private EditionServiceImpl editionService;
+
+  @BeforeEach
+  void setUp() {
+    editionOne = Edition.builder().id(idOne).name(nameOne).build();
+    editionTwo = Edition.builder().id(idTwo).name(nameTwo).build();
+    editionToAdd = Edition.builder().name(nameToAdd).build();
+    editionDtoOne = EditionDto.builder().id(idOne).name(nameOne).build();
+    editionDtoTwo = EditionDto.builder().id(idTwo).name(nameTwo).build();
+    editionDtoToAdd = EditionDto.builder().name(nameToAdd).build();
+    editionList = Arrays.asList(this.editionOne, this.editionTwo);
+    editionDtoList = Arrays.asList(this.editionDtoOne, this.editionDtoTwo);
+  }
 
   @Test
   @DisplayName("findById when ID exists then should return Edition DTO")
@@ -140,4 +153,7 @@ public class EditionServiceImplTest {
             () -> verify(modelMapper).map(editionToAdd, EditionDto.class)
     );
   }
+
+  //TODO
+  // after test add -> reset id of editionToAdd & editionDtoToAdd
 }
